@@ -40,6 +40,9 @@ except ImportError:
     pass
 
 
+WINDOWS_LINE_ENDING = b'\r\n'
+UNIX_LINE_ENDING = b'\n'
+
 def file_hash(fname, alg="sha256"):
     """
     Calculate the hash of a given file.
@@ -82,7 +85,7 @@ def file_hash(fname, alg="sha256"):
     with open(fname, "rb") as fin:
         buff = fin.read(chunksize)
         while buff:
-            hasher.update(buff)
+            hasher.update(buff.replace(WINDOWS_LINE_ENDING, UNIX_LINE_ENDING))
             buff = fin.read(chunksize)
     return hasher.hexdigest()
 
